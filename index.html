@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,79 +8,109 @@
 <body>
     <header>
         <h1>Gestor Académico</h1>
-        <p> Calcula tu nota final y evalua tu rendimiento :b</p>
+        <p>Calcula tu nota final y evalúa tu rendimiento :b</p>
     </header>
 
     <main>
         <form id="form-notas">
+            <!-- 1. Información del Ramo -->
             <section class="seccion-bloque">
-                <h2>1. Informacion del Ramo</h2>
-
-            <div class="grupo-campo">
-                <label for="ramo">Nombre del Ramo:</label>
-                <input type="text" id="ramo" placeholder="Ej: EDO">
-            </div>
-
+                <h2>1. Información del Ramo</h2>
+                <div class="grupo-campo">
+                    <label for="ramo">Nombre del Ramo:</label>
+                    <input type="text" id="ramo" placeholder="Ej: EDO">
+                </div>
             </section>
-        
 
-     
-        <section class="seccion-bloque">
+            <!-- 2. Evaluaciones -->
+            <section class="seccion-bloque">
                 <h2>2. Ingreso de Evaluaciones</h2>
                 
                 <div class="grupo-campo">
                     <label>Nota Cátedra 1:</label>
-                    <input type="number" id="nota1" min="1" max="7" step="0.1" placeholder="1.0 - 7.0">
-                    <input type="number" id="porcentaje1" min="1" max="100" placeholder="%">
+                    <input type="number" id="nota1" class="nota" min="1" max="7" step="0.1" placeholder="1.0 - 7.0">
+                    <input type="number" id="porcentaje1" class="porcentaje" min="1" max="100" placeholder="%">
                 </div>
 
                 <div class="grupo-campo">
                     <label>Nota Cátedra 2:</label>
-                    <input type="number" id="nota2" min="1" max="7" step="0.1" placeholder="1.0 - 7.0">
-                    <input type="number" id="porcentaje2" min="1" max="100" placeholder="%">
+                    <input type="number" id="nota2" class="nota" min="1" max="7" step="0.1" placeholder="1.0 - 7.0">
+                    <input type="number" id="porcentaje2" class="porcentaje" min="1" max="100" placeholder="%">
                 </div>
 
                 <div class="grupo-campo">
                     <label>Nota Cátedra 3:</label>
-                    <input type="number" id="nota3" min="1" max="7" step="0.1" placeholder="1.0 - 7.0">
-                    <input type="number" id="porcentaje3" min="1" max="100" placeholder="%">
+                    <input type="number" id="nota3" class="nota" min="1" max="7" step="0.1" placeholder="1.0 - 7.0">
+                    <input type="number" id="porcentaje3" class="porcentaje" min="1" max="100" placeholder="%">
                 </div>
 
                 <div class="grupo-campo">
                     <label>Nota Cátedra 4:</label>
-                    <input type="number" id="nota4" min="1" max="7" step="0.1" placeholder="1.0 - 7.0">
-                    <input type="number" id="porcentaje4" min="1" max="100" placeholder="%">
+                    <input type="number" id="nota4" class="nota" min="1" max="7" step="0.1" placeholder="1.0 - 7.0">
+                    <input type="number" id="porcentaje4" class="porcentaje" min="1" max="100" placeholder="%">
                 </div>
-            </section>
-            
-            <section class="seccion-bloque">
-                <h2>3. Notas U Observaciones</h2>
+
                 <div class="grupo-campo">
-                    <label for="Comentario"> Recordatorio personal: </label>
-                    <textarea id="comentario" rows="3" placeholder="Ej: Nececito estudiar materia de la prueba 2"></textarea>
+                    <label>Nota Cátedra 5:</label>
+                    <input type="number" id="nota5" class="nota" min="1" max="7" step="0.1" placeholder="1.0 - 7.0">
+                    <input type="number" id="porcentaje5" class="porcentaje" min="1" max="100" placeholder="%">
                 </div>
             </section>
-
-            <button type="button" id="btn-calcular">Calcular Promedio</button>
-
         </form>
 
+        <!-- Resultado -->
         <section id="seccion-resultado" class="seccion-bloque">
             <h2>Resultado</h2>
             <div id="resultado">Esperando que ingreses los datos...</div>
         </section>
-   
-        <div>
-            <h2> Imprimir</h2>
-        <button type="button" id="imprimir">Imprimir / Guardar en PDF</button>
-        </div>
-        
+
+        <!-- 3. Nota Necesaria para Aprobar -->
+        <section id="seccion-necesitada" class="seccion-bloque">
+            <h2>3. Nota Necesaria para Aprobar</h2>
+            
+            <div class="grupo-campo">
+                <label for="nota-promedio">Nota mínima de aprobación:</label>
+                <input type="number" id="nota-promedio" min="1" max="7" step="0.1" value="4.0" placeholder="Ej: 4.0">
+                <input type="number" id="porcentaje-promedio" min="1" max="100" placeholder="%">
+            </div>
+
+            <div id="resultado-necesitado">
+                Aquí verás cuánto necesitas sacarte en lo que falta...
+            </div>
+
+            <!-- Campo Examen y Estado Final -->
+            <div id="nota" class="grupo-campo" style="margin-top: 15px;">
+                <label for="nota-examen">Ingrese nota del examen:</label>
+                <input type="number" id="nota-examen" min="1" max="7" step="0.1" placeholder="1.0 - 7.0">
+            </div>
+
+            <div id="estado-ramo" class="estado-box" style="margin-top: 10px;">
+                <strong>Estado:</strong> <span id="texto-estado">PENDIENTE</span>
+            </div>
+        </section>
+
+        <!-- 4. Notas U Observaciones -->
+        <section class="seccion-bloque">
+            <h2>4. Notas U Observaciones</h2>
+            <div class="grupo-campo">
+                <label for="comentario">Recordatorio personal:</label>
+                <textarea id="comentario" rows="3" placeholder="Ej: Necesito estudiar materia de la prueba 2"></textarea>
+            </div>
+        </section>
+
+        <!-- Acciones, Impresión y Exportación -->
+        <section class="seccion-bloque">
+            <h2>Acciones</h2>
+            <button type="button" id="imprimir">Imprimir / Guardar en PDF</button>
+            <button type="button" id="btn-exportar-json">Descargar en JSON</button>
+            <button type="button" id="btn-reiniciar" onclick="location.reload()">Reiniciar / Limpiar</button>
+            
+            <div style="margin-top: 15px;">
+                <a href="index2.html">Ir al Sumario de Ramos (index2.html) &rarr;</a>
+            </div>
+        </section>
 
         <script src="script.js"></script>
-
-
     </main>
-
-    
 </body>
 </html>
