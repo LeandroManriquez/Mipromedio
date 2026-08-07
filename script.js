@@ -5,14 +5,16 @@ const inputsNotas = [
     document.getElementById('nota1'),
     document.getElementById('nota2'),
     document.getElementById('nota3'),
-    document.getElementById('nota4')
+    document.getElementById('nota4'),
+    document.getElementById('nota5'),
 ];
 
 const inputsPorcentajes = [
     document.getElementById('porcentaje1'),
     document.getElementById('porcentaje2'),
     document.getElementById('porcentaje3'),
-    document.getElementById('porcentaje4')
+    document.getElementById('porcentaje4'),
+    document.getElementById('porcentaje5'),
 ];
 
 const outputPromedio = document.getElementById('resultado');
@@ -27,7 +29,7 @@ function calcularPromedios() {
     let sumaPonderada = 0;
     let sumaPorcentajes = 0;
 
-    // Recorremos los 4 espacios de notas
+    // Recorremos los 5 espacios de notas
     for (let i = 0; i < inputsNotas.length; i++) {
         // Obtenemos el valor de cada input correspondiente
         const nota = parseFloat(inputsNotas[i].value) || 0;
@@ -51,5 +53,8 @@ function calcularPromedios() {
 // ==========================================
 // 3. FUNCION PARA AGREGAR UNA NUEVA FILA
 // ==========================================
+document.getElementById('btn-sumario').addEventListener('click', () => {
+    window.location.href = 'index2.html';
+});
 inputsNotas.forEach(input => input.addEventListener('input', calcularPromedios));
 inputsPorcentajes.forEach(input => input.addEventListener('input', calcularPromedios));
