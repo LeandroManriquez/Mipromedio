@@ -72,7 +72,7 @@ function calcularNotaNecesaria() {
             }
         }
     }
-}
+
     if (sumaPorcentajes === 0) {
         outputPromedio.textContent = "0.00";
         outputNecesitado.textContent = "Ingrese al menos una nota previa con su porcentaje.";
@@ -90,7 +90,7 @@ function calcularNotaNecesaria() {
         actualizarEstado("PENDIENTE", "#f59e0b");
         return;
     }
-
+}
     const porcentajePresentacion = 100 - porcentajeFaltante;
     const umbralAprobacion = notaMinima - 0.05;
 
