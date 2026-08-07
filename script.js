@@ -90,7 +90,7 @@ function calcularNotaNecesaria() {
         actualizarEstado("PENDIENTE", "#f59e0b");
         return;
     }
-}
+
     const porcentajePresentacion = 100 - porcentajeFaltante;
     const umbralAprobacion = notaMinima - 0.05;
 
@@ -118,7 +118,7 @@ function calcularNotaNecesaria() {
             const faltaParaEximirse = (notaExencion - promedioPresentacion).toFixed(2);
             motivoExamen = `Vas a examen porque tu promedio (${promedioPresentacion.toFixed(2)}) es menor a la nota de eximición (${notaExencion.toFixed(1)}). Te faltaron ${faltaParaEximirse} décimas para eximirte.`;
         }
-//a
+
         if (notaNecesaria > 7) {
             outputNecesitado.innerHTML =
                 `<span style="color:#ef4444">
@@ -157,7 +157,7 @@ function calcularNotaNecesaria() {
             actualizarEstado("PENDIENTE", "#f59e0b");
         }
     }
-
+}
 // ==========================================
 // 4. ESCUCHADORES DE EVENTOS
 // ==========================================
