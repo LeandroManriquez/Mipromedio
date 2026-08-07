@@ -15,6 +15,7 @@ const inputsPorcentajes = [
     document.getElementById('porcentaje4')
 ];
 
+const outputPromedio = document.getElementById('resultado');
 document.getElementById('imprimir').addEventListener('click', function() {
     window.print();
 });
@@ -41,8 +42,9 @@ function calcularPromedios() {
     if (sumaPorcentajes > 0) {
         const promedio = sumaPonderada / sumaPorcentajes;
         console.log("Tu promedio actual es: " + promedio.toFixed(2));
-        // Descomentar cuando el HTML tenga donde mostrar el resultado:
-        // outputPromedio.textContent = promedio.toFixed(2);
+        outputPromedio.textContent = promedio.toFixed(2);
+    } else {
+        outputPromedio.textContent = "0.00";
     }
 }
 
