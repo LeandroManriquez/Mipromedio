@@ -63,9 +63,12 @@ function calcularPromedios() {
 document.getElementById('btn-sumario').addEventListener('click', () => {
     window.location.href = 'index2.html';
 });
+
 inputsNotas.forEach(input => input.addEventListener('input', calcularPromedios));
 inputsPorcentajes.forEach(input => input.addEventListener('input', calcularPromedios));
 
+inputNotaMinima.addEventListener("input", calcularNotaNecesaria);
+inputPorcentajeFaltante.addEventListener("input", calcularNotaNecesaria);
 
 //==========================================
 // 4. FUNCION PARA CALCULAR NOTA NECESARIA
