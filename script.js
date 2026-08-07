@@ -73,64 +73,145 @@ inputPorcentajeFaltante.addEventListener("input", calcularNotaNecesaria);
 //==========================================
 // 4. FUNCION PARA CALCULAR NOTA NECESARIA
 //==========================================
-
 function calcularNotaNecesaria() {
-
     const notaMinima = parseFloat(inputNotaMinima.value) || 4.0;
     const porcentajeFaltante = parseFloat(inputPorcentajeFaltante.value) || 0;
 
-    let sumaActual = 0;
-    let porcentajeActual = 0;
+    // 1. Validar que el porcentaje faltante esté en un rango válido
+    if (porcentajeFaltante <= 0 || porcentajeFaltante >= 100) {
+        outputNecesitado.textContent = "Ingrese un porcentaje faltante válido (entre 1% y 99%).";
+        return;
+    }
 
+    let sumaNotas = 0;
+    let cantidadNotas = 0;
+
+    // 2. Sumar las notas ingresadas para obtener su promedio
     for (let i = 0; i < inputsNotas.length; i++) {
-
         const nota = parseFloat(inputsNotas[i].value);
-        const porcentaje = parseFloat(inputsPorcentajes[i].value);
-
-        if (!isNaN(nota) && !isNaN(porcentaje)) {
-            sumaActual += nota * porcentaje;
-            porcentajeActual += porcentaje;
+        if (!isNaN(nota)) {
+            sumaNotas += nota;
+            cantidadNotas++;
         }
     }
 
-    if (porcentajeFaltante <= 0) {
-        outputNecesitado.textContent = "Ingrese el porcentaje que falta.";
+    if (cantidadNotas === 0) {
+        outputNecesitado.textContent = "Ingrese al menos una nota actual.";
         return;
     }
 
-    if ((porcentajeActual + porcentajeFaltante) !== 100) {
-        outputNecesitado.textContent =
-            "Los porcentajes ingresados deben sumar 100%.";
-        return;
-    }
+    // 3. El promedio de tus notas actuales vale el porcentaje restante
+    const promedioActual = sumaNotas / cantidadNotas;
+    const porcentajeActual = 100 - porcentajeFaltante;
 
-    const notaNecesaria =
-        ((notaMinima * 100) - sumaActual) / porcentajeFaltante;
+    // 4. Calcular la nota necesaria
+    // (notaMinima * 100) - (promedioActual * porcentajeActual) / porcentajeFaltante
+    const notaNecesaria = ((notaMinima * 100) - (promedioActual * porcentajeActual)) / porcentajeFaltante;
 
     if (notaNecesaria > 7) {
-
         outputNecesitado.innerHTML =
             `<span style="color:red">
-            Necesitas un ${notaNecesaria.toFixed(2)}. No es posible aprobar.
+            Necesitas un <strong>${notaNecesaria.toFixed(2)}</strong>. No es posible aprobar.
             </span>`;
-
     } else if (notaNecesaria <= 1) {
-
         outputNecesitado.innerHTML =
             `<span style="color:lime">
             Ya estás aprobado incluso sacándote un 1.0.
             </span>`;
-
     } else {
-
         outputNecesitado.innerHTML =
             `Necesitas obtener un <strong>${notaNecesaria.toFixed(2)}</strong> para aprobar.`;
-
     }
-    
-    inputNotaMinima.addEventListener("input", calcularNotaNecesaria);
-    inputPorcentajeFaltante.addEventListener("input", calcularNotaNecesaria);
 }
+
+
+// Referencias a los elementos del DOM del examen y estado
+const inputNotaExamen = document.getElementById("nota-examen");
+const textoEstado = document.getElementById("texto-estado");
+
+function calcularNotaNecesaria() {
+    const notaMinima = parseFloat(inputNotaMinima.value) || 4.0;
+    const porcentajeFaltante = parseFloat(inputPorcentajeFaltante.value) || 0;
+    const notaExamen = parseFloat(inputNotaExamen.value);
+
+    // 1. Validar porcentaje del examen
+    if (porcentajeFaltante <= 0 || porcentajeFaltante >= 100) {
+        outputNecesitado.textContent = "Ingrese un porcentaje de examen válido (1% a 99%).";
+        actualizarEstado("PENDIENTE", "gray");
+        return;
+    }
+
+    // 2. Calcular el promedio de presentación (notas cursadas)
+    let sumaNotas = 0;
+    let cantidadNotas = 0;
+
+    for (let i = 0; i < inputsNotas.length; i++) {
+        const nota = parseFloat(inputsNotas[i].value);
+        if (!isNaN(nota)) {
+            sumaNotas += nota;
+            cantidadNotas++;
+        }
+    }
+
+    if (cantidadNotas === 0) {
+        outputNecesitado.textContent = "Ingrese al menos una nota previa.";
+        actualizarEstado("PENDIENTE", "gray");
+        return;
+    }
+
+    const promedioPresentacion = sumaNotas / cantidadNotas;
+    const porcentajePresentacion = 100 - porcentajeFaltante;
+
+    // 3. Evaluar el Estado Final si ya ingresó la nota del examen
+    if (!isNaN(notaExamen)) {
+        // Cálculo de la nota final: (Promedio * %Presentación) + (Examen * %Examen)
+        const notaFinal = (promedioPresentacion * (porcentajePresentacion / 100)) + 
+                          (notaExamen * (porcentajeFaltante / 100));
+
+        if (notaFinal.toFixed(2) >= notaMinima.toFixed(2)) {
+            actualizarEstado(`APROBADO (${notaFinal.toFixed(2)})`, "#22c55e");
+        } else {
+            actualizarEstado(`REPROBADO (${notaFinal.toFixed(2)})`, "#ef4444");
+        }
+    } else {
+        actualizarEstado("PENDIENTE", "#f59e0b");
+    }
+
+    // 4. Calcular la nota que necesita sacarse en el examen
+    const notaNecesaria = ((notaMinima * 100) - (promedioPresentacion * porcentajePresentacion)) / porcentajeFaltante;
+
+    if (notaNecesaria > 7) {
+        outputNecesitado.innerHTML =
+            `<span style="color:#ef4444">
+            Necesitas un <strong>${notaNecesaria.toFixed(2)}</strong>. No es posible aprobar.
+            </span>`;
+    } else if (notaNecesaria <= 1) {
+        outputNecesitado.innerHTML =
+            `<span style="color:#22c55e">
+            Ya estás aprobado de presentación (incluso sacándote un 1.0).
+            </span>`;
+    } else {
+        outputNecesitado.innerHTML =
+            `Necesitas obtener un <strong>${notaNecesaria.toFixed(2)}</strong> en el examen para aprobar.`;
+    }
+}
+
+// Función auxiliar para cambiar el texto y color del estado
+function actualizarEstado(mensaje, color) {
+    textoEstado.textContent = mensaje;
+    textoEstado.style.color = color;
+}
+
+// Escuchadores de eventos
+inputNotaMinima.addEventListener("input", calcularNotaNecesaria);
+inputPorcentajeFaltante.addEventListener("input", calcularNotaNecesaria);
+inputNotaExamen.addEventListener("input", calcularNotaNecesaria);
+
+
+// Escuchadores de eventos fuera de la función
+inputNotaMinima.addEventListener("input", calcularNotaNecesaria);
+inputPorcentajeFaltante.addEventListener("input", calcularNotaNecesaria);
+
 
 //CODIGO QLO BRIJIDO
 // ==========================================
