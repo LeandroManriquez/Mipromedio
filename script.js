@@ -22,6 +22,10 @@ document.getElementById('imprimir').addEventListener('click', function() {
     window.print();
 });
 
+const inputNotaMinima = document.getElementById("nota-promedio");
+const inputPorcentajeFaltante = document.getElementById("porcentaje-promedio");
+const outputNecesitado = document.getElementById("resultado-necesitado");
+
 // ==========================================
 // 2. FUNCIÓN DE CÁLCULO
 // ==========================================
@@ -48,6 +52,9 @@ function calcularPromedios() {
     } else {
         outputPromedio.textContent = "0.00";
     }
+
+    calcularNotaNecesaria();
+
 }
 
 // ==========================================
@@ -60,11 +67,71 @@ inputsNotas.forEach(input => input.addEventListener('input', calcularPromedios))
 inputsPorcentajes.forEach(input => input.addEventListener('input', calcularPromedios));
 
 
+//==========================================
+// 4. FUNCION PARA CALCULAR NOTA NECESARIA
+//==========================================
 
+function calcularNotaNecesaria() {
+
+    const notaMinima = parseFloat(inputNotaMinima.value) || 4.0;
+    const porcentajeFaltante = parseFloat(inputPorcentajeFaltante.value) || 0;
+
+    let sumaActual = 0;
+    let porcentajeActual = 0;
+
+    for (let i = 0; i < inputsNotas.length; i++) {
+
+        const nota = parseFloat(inputsNotas[i].value);
+        const porcentaje = parseFloat(inputsPorcentajes[i].value);
+
+        if (!isNaN(nota) && !isNaN(porcentaje)) {
+            sumaActual += nota * porcentaje;
+            porcentajeActual += porcentaje;
+        }
+    }
+
+    if (porcentajeFaltante <= 0) {
+        outputNecesitado.textContent = "Ingrese el porcentaje que falta.";
+        return;
+    }
+
+    if ((porcentajeActual + porcentajeFaltante) !== 100) {
+        outputNecesitado.textContent =
+            "Los porcentajes ingresados deben sumar 100%.";
+        return;
+    }
+
+    const notaNecesaria =
+        ((notaMinima * 100) - sumaActual) / porcentajeFaltante;
+
+    if (notaNecesaria > 7) {
+
+        outputNecesitado.innerHTML =
+            `<span style="color:red">
+            Necesitas un ${notaNecesaria.toFixed(2)}. No es posible aprobar.
+            </span>`;
+
+    } else if (notaNecesaria <= 1) {
+
+        outputNecesitado.innerHTML =
+            `<span style="color:lime">
+            Ya estás aprobado incluso sacándote un 1.0.
+            </span>`;
+
+    } else {
+
+        outputNecesitado.innerHTML =
+            `Necesitas obtener un <strong>${notaNecesaria.toFixed(2)}</strong> para aprobar.`;
+
+    }
+    
+    inputNotaMinima.addEventListener("input", calcularNotaNecesaria);
+    inputPorcentajeFaltante.addEventListener("input", calcularNotaNecesaria);
+}
 
 //CODIGO QLO BRIJIDO
 // ==========================================
-// 4. DESCARGA EN JSON 
+// 5. DESCARGA EN JSON 
 // ==========================================
 document.getElementById('btn-exportar-json').addEventListener('click', () => {
 
