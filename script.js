@@ -111,7 +111,7 @@ function calcularNotaNecesaria() {
     if (notaNecesaria > 7) {
         outputNecesitado.innerHTML =
             `<span style="color:red">
-            Necesitas un <strong>${notaNecesaria.toFixed(2)}</strong>. No es posible aprobar.
+            Necesitas un <strong>${notaNecesaria.toFixed(1)}</strong>. No es posible aprobar.
             </span>`;
     } else if (notaNecesaria <= 1) {
         outputNecesitado.innerHTML =
@@ -120,7 +120,7 @@ function calcularNotaNecesaria() {
             </span>`;
     } else {
         outputNecesitado.innerHTML =
-            `Necesitas obtener un <strong>${notaNecesaria.toFixed(2)}</strong> para aprobar.`;
+            `Necesitas obtener un <strong>${notaNecesaria.toFixed(1)}</strong> para aprobar.`;
     }
 }
 
