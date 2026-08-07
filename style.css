@@ -1,6 +1,4 @@
-/* =========================================
-   VARIABLES GLOBALES (Paleta de colores)
-========================================= */
+
 :root {
     --fondo-sitio: #1a1a24;
     --fondo-tarjeta: #252533;
@@ -11,9 +9,7 @@
     --borde-input: #44445c;
 }
 
-/* =========================================
-   ESTILOS GENERALES
-========================================= */
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -31,7 +27,7 @@ body {
 
 main {
     width: 100%;
-    max-width: 700px; /* Ancho máximo para que no se estire demasiado en PC */
+    max-width: 700px; /
 }
 
 header {
@@ -51,9 +47,7 @@ header p {
     font-size: 1.1rem;
 }
 
-/* =========================================
-   SECCIONES Y CONTENEDORES
-========================================= */
+
 .seccion-bloque {
     background-color: var(--fondo-tarjeta);
     border: 2px solid var(--borde-neon);
@@ -70,9 +64,7 @@ header p {
     padding-bottom: 10px;
 }
 
-/* =========================================
-   FORMULARIOS E INPUTS
-========================================= */
+
 .grupo-campo {
     display: flex;
     align-items: center;
@@ -89,7 +81,7 @@ header p {
 input[type="text"],
 input[type="number"],
 textarea {
-    flex: 1.5; /* Hace que las cajas de texto sean un poco más anchas que el label */
+    flex: 1.5; 
     background-color: var(--fondo-input);
     border: 1px solid var(--borde-input);
     color: var(--texto-principal);
@@ -110,14 +102,12 @@ textarea {
     resize: vertical;
 }
 
-/* Ajuste específico para cuando hay 2 inputs en la misma línea (Nota y Porcentaje) */
+
 .grupo-campo input[type="number"] {
     flex: 1;
 }
 
-/* =========================================
-   BOTONES
-========================================= */
+
 button {
     width: 100%;
     background-color: var(--borde-neon);
@@ -141,19 +131,17 @@ button:active {
 }
 
 #imprimir {
-    background-color: #4CAF50; /* Color verde distinto para diferenciarlo */
+    background-color: #4CAF50; 
 }
 #imprimir:hover {
     background-color: #45a049;
 }
 
 #btn-calcular {
-    display: none; /* Lo ocultamos porque el cálculo es automático con el script */
+    display: none; 
 }
 
-/* =========================================
-   RESULTADOS
-========================================= */
+
 #seccion-resultado {
     text-align: center;
     background-color: rgba(255, 0, 127, 0.1);
@@ -166,9 +154,7 @@ button:active {
     margin-top: 10px;
 }
 
-/* =========================================
-   ESTILOS PARA IMPRESIÓN (PDF)
-========================================= */
+
 @media print {
     body {
         background-color: white;
@@ -194,7 +180,7 @@ button:active {
         border: 1px solid #999;
     }
 
-    /* Ocultamos los botones al imprimir para que el PDF quede limpio */
+    
     button, #imprimir {
         display: none !important;
     }
