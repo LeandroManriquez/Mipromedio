@@ -141,7 +141,13 @@ button:active {
     display: none; 
 }
 
+#btn-exportar-json{
+    background-color: #9411ff;
+}
 
+#btn-reiniciar{
+    background-color: #770404;
+}
 #seccion-resultado {
     text-align: center;
     background-color: rgba(255, 0, 127, 0.1);

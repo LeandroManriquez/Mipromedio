@@ -58,3 +58,58 @@ document.getElementById('btn-sumario').addEventListener('click', () => {
 });
 inputsNotas.forEach(input => input.addEventListener('input', calcularPromedios));
 inputsPorcentajes.forEach(input => input.addEventListener('input', calcularPromedios));
+
+
+
+
+//CODIGO QLO BRIJIDO
+// ==========================================
+// 4. DESCARGA EN JSON 
+// ==========================================
+document.getElementById('btn-exportar-json').addEventListener('click', () => {
+
+    const ramo = document.getElementById('ramo').value.trim() || 'Sin_Nombre';
+    const comentario = document.getElementById('comentario').value;
+    const notaExamen = parseFloat(document.getElementById('nota-examen')?.value) || null;
+    const estado = document.getElementById('texto-estado')?.innerText || 'PENDIENTE';
+
+    
+    let evaluaciones = [];
+    for (let i = 0; i < inputsNotas.length; i++) {
+        const nota = parseFloat(inputsNotas[i]?.value);
+        const porcentaje = parseFloat(inputsPorcentajes[i]?.value);
+
+        if (!isNaN(nota) && !isNaN(porcentaje)) {
+            evaluaciones.push({
+                evaluacion: `Cátedra ${i + 1}`,
+                nota: nota,
+                porcentaje: porcentaje
+            });
+        }
+    }
+
+    //estructura de la wea
+    const datosRamo = {
+        nombreRamo: ramo,
+        estado: estado,
+        notaExamen: notaExamen,
+        evaluaciones: evaluaciones,
+        comentario: comentario,
+        fechaGuardado: new Date().toLocaleDateString()
+    };
+
+    //generacion de archivo
+    const jsonString = JSON.stringify(datosRamo, null, 2);
+    const blob = new Blob([jsonString], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    
+    a.href = url;
+    a.download = `${ramo.toLowerCase().replace(/\s+/g, '_')}_promedio.json`;
+    
+    document.body.appendChild(a);
+    a.click();
+
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+});
