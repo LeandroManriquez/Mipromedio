@@ -47,10 +47,10 @@ function calcularPromedios() {
 
     if (sumaPorcentajes > 0) {
         const promedio = sumaPonderada / sumaPorcentajes;
-        console.log("Tu promedio actual es: " + promedio.toFixed(2));
-        outputPromedio.textContent = promedio.toFixed(2);
+        console.log("Tu promedio actual es: " + promedio.toFixed(1));
+        outputPromedio.textContent = promedio.toFixed(1);
     } else {
-        outputPromedio.textContent = "0.00";
+        outputPromedio.textContent = "0.0";
     }
 
     calcularNotaNecesaria();
@@ -168,10 +168,10 @@ function calcularNotaNecesaria() {
         const notaFinal = (promedioPresentacion * (porcentajePresentacion / 100)) + 
                           (notaExamen * (porcentajeFaltante / 100));
 
-        if (notaFinal.toFixed(2) >= notaMinima.toFixed(2)) {
-            actualizarEstado(`APROBADO (${notaFinal.toFixed(2)})`, "#22c55e");
+        if (notaFinal.toFixed(1) >= notaMinima.toFixed(1)) {
+            actualizarEstado(`APROBADO (${notaFinal.toFixed(1)})`, "#22c55e");
         } else {
-            actualizarEstado(`REPROBADO (${notaFinal.toFixed(2)})`, "#ef4444");
+            actualizarEstado(`REPROBADO (${notaFinal.toFixed(1)})`, "#ef4444");
         }
     } else {
         actualizarEstado("PENDIENTE", "#f59e0b");
@@ -183,7 +183,7 @@ function calcularNotaNecesaria() {
     if (notaNecesaria > 7) {
         outputNecesitado.innerHTML =
             `<span style="color:#ef4444">
-            Necesitas un <strong>${notaNecesaria.toFixed(2)}</strong>. No es posible aprobar.
+            Necesitas un <strong>${notaNecesaria.toFixed(1)}</strong>. No es posible aprobar.
             </span>`;
     } else if (notaNecesaria <= 1) {
         outputNecesitado.innerHTML =
@@ -192,7 +192,7 @@ function calcularNotaNecesaria() {
             </span>`;
     } else {
         outputNecesitado.innerHTML =
-            `Necesitas obtener un <strong>${notaNecesaria.toFixed(2)}</strong> en el examen para aprobar.`;
+            `Necesitas obtener un <strong>${notaNecesaria.toFixed(1)}</strong> en el examen para aprobar.`;
     }
 }
 
